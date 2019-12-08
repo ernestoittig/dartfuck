@@ -1,0 +1,12 @@
+name: dartfuck
+description: A Dart implementation of Brainfuck
+version: 0.0.1
+repository: https://github.com/ernestoittig/dartfuck
+author: Ernesto Ittig <e.ittig@gmail.com>
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dev_dependencies:
+  effective_dart: ^1.1.1
+  test: 1.9.2 # Add a caret when dart-lang/sdk#39702 is resolved
