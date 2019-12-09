@@ -25,7 +25,9 @@ void main() {
       expect(cellArray.readCell(), equals(1));
       expect(cellArray.readCellAsString(), equals("\x01"));
     });
-    test('add and subToCell() increase and decrease the value in th current cell', () {
+    test(
+        'add and subToCell() increase and decrease the value in the current cell',
+        () {
       var cellArray = CellArray();
       expect(cellArray.addToCell(), equals(1));
       for (var i = 0; i < 32; ++i) {
@@ -41,7 +43,9 @@ void main() {
       expect(cellArray.writeToCell(32), equals(32));
       expect(cellArray.readCellAsString(), equals(' '));
     });
-    test('next and previousCell() throws RangeError if selected cell is out of bounds', () {
+    test(
+        'next and previousCell() throws RangeError if selected cell is out of bounds',
+        () {
       var cellArray = CellArray();
       expect(cellArray.previousCell, throwsRangeError);
       for (var i = 0; i < 29999; ++i) {
