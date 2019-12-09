@@ -5,3 +5,4 @@
 ## 0.0.2
 
 * Added README
+* Removed magic numbers from code
