@@ -7,14 +7,12 @@ final String usage = """
 dartfuck [-e string | script.bf | -]
 If - or none are passed, then the program will be read from standard input""";
 
-final List<int> commands = '><+-.,[]'.codeUnits;
-
 int findClosingBracket(List<int> code) {
   var indexes = <int>[];
   for (var i = 0; i < code.length; ++i) {
-    if (code[i] == 0x5b) {
+    if (code[i] == NumCodes.leftBracket) {
       indexes.add(i);
-    } else if (code[i] == 0x5d) {
+    } else if (code[i] == NumCodes.rightBracket) {
       indexes.removeLast();
     }
   }
@@ -49,36 +47,36 @@ void main(List<String> args) async {
     print('Invalid arguments\n$usage');
     exit(64);
   }
-  program = program.where(commands.contains).toList();
+  program = program.where(NumCodes.commands.contains).toList();
 
   var cellArray = CellArray();
 
   for (var i = 0; i < program.length; ++i) {
     switch (program[i]) {
-      case 0x3e: // >
+      case NumCodes.greaterThan:
         cellArray.nextCell();
         break;
-      case 0x3c: // <
+      case NumCodes.lessThan:
         cellArray.previousCell();
         break;
-      case 0x2b: // +
+      case NumCodes.plus:
         cellArray.addToCell();
         break;
-      case 0x2d: // -
+      case NumCodes.hyphen:
         cellArray.subToCell();
         break;
-      case 0x2e: // .
+      case NumCodes.dot:
         stdout.writeCharCode(cellArray.readCell());
         break;
-      case 0x2c: // ,
+      case NumCodes.comma:
         cellArray.writeToCell(stdin.readByteSync());
         break;
-      case 0x5b: // [
+      case NumCodes.leftBracket:
         if (cellArray.readCell() == 0) {
-          i = program.indexOf(0x5d /*]*/, i);
+          i = program.indexOf(NumCodes.rightBracket, i);
         }
         break;
-      case 0x5d: // ]
+      case NumCodes.rightBracket:
         if (cellArray.readCell() != 0) {
           i = findClosingBracket(program.sublist(0, i));
         }

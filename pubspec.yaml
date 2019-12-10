@@ -1,6 +1,6 @@
 name: dartfuck
 description: A Dart implementation of Brainfuck
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/ernestoittig/dartfuck
 author: Ernesto Ittig <e.ittig@gmail.com>
 
