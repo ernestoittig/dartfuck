@@ -6,3 +6,4 @@
 
 * Added README
 * Removed magic numbers from code
+* Added credit to the example Brainfuck program
