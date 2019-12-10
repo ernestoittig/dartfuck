@@ -1,4 +1,6 @@
+export 'src/brackets.dart';
 export 'src/cellarray.dart';
+export 'src/exception.dart';
 
 /// A helper class with byte representations of Brainfuck commands
 abstract class NumCodes {
