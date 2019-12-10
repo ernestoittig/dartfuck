@@ -1,3 +1,4 @@
+export 'src/brackets.dart';
 export 'src/cellarray.dart';
 
 /// A helper class with byte representations of Brainfuck commands
