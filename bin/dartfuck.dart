@@ -7,18 +7,6 @@ final String usage = """
 dartfuck [-e string | script.bf | -]
 If - or none are passed, then the program will be read from standard input""";
 
-int findClosingBracket(List<int> code) {
-  var indexes = <int>[];
-  for (var i = 0; i < code.length; ++i) {
-    if (code[i] == NumCodes.leftBracket) {
-      indexes.add(i);
-    } else if (code[i] == NumCodes.rightBracket) {
-      indexes.removeLast();
-    }
-  }
-  return indexes.last;
-}
-
 void main(List<String> args) async {
   if (args.contains('-h') || args.contains('--help')) {
     print(usage);
@@ -47,17 +35,32 @@ void main(List<String> args) async {
     print('Invalid arguments\n$usage');
     exit(64);
   }
-  program = program.where(NumCodes.commands.contains).toList();
+  // Its easier of we just keep the entire program
 
   var cellArray = CellArray();
 
   for (var i = 0; i < program.length; ++i) {
     switch (program[i]) {
       case NumCodes.greaterThan:
-        cellArray.nextCell();
+        try {
+          cellArray.nextCell();
+        } on RangeError {
+          stderr.write(BrainfuckException(
+              Location(i, program), BrainfuckExceptionReason.pointerTooBig,
+              color: true));
+          exit(3 + BrainfuckExceptionReason.pointerTooBig.index);
+        }
         break;
       case NumCodes.lessThan:
-        cellArray.previousCell();
+        try {
+          cellArray.previousCell();
+        } on RangeError {
+          stderr.write(BrainfuckException(Location(i, program),
+                  BrainfuckExceptionReason.negativePointer,
+                  color: true)
+              .toString());
+          exit(3 + BrainfuckExceptionReason.negativePointer.index);
+        }
         break;
       case NumCodes.plus:
         cellArray.addToCell();
@@ -73,12 +76,12 @@ void main(List<String> args) async {
         break;
       case NumCodes.leftBracket:
         if (cellArray.readCell() == 0) {
-          i = program.indexOf(NumCodes.rightBracket, i);
+          i = findClosingBracket(program, i);
         }
         break;
       case NumCodes.rightBracket:
         if (cellArray.readCell() != 0) {
-          i = findClosingBracket(program.sublist(0, i));
+          i = findOpeningBracket(program, i);
         }
     }
   }
