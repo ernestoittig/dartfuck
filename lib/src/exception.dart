@@ -4,6 +4,7 @@ import 'dart:convert';
 enum BrainfuckExceptionReason {
   /// Pointer is a negative number
   negativePointer,
+
   /// Pointer is >= 30000
   pointerTooBig,
 }
@@ -42,7 +43,7 @@ class ExceptionReasonString {
         break;
       case BrainfuckExceptionReason.pointerTooBig:
         return 'It seems somewhere in your program, a \'>\' made the pointer >= 30,000, '
-        'which is bigger that the cell array';
+            'which is bigger that the cell array';
     }
     return '';
   }
